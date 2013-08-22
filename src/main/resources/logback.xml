@@ -3,7 +3,7 @@
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>%d{dd MMM yyyy HH:mm:ss} %-5p %c - %m%n</pattern>
-		</encoder>
+		</encoder>                
 	</appender>
 
 	<!-- Custom appender, for sending the SMTP logs in the swing application directly -->
@@ -12,11 +12,11 @@
 	<logger name="org.subethamail.smtp.server.Session" level="DEBUG">
 		<appender-ref ref="SMTPLOGS" />
 	</logger>
-	<logger name="org.subethamail.smtp.server.ServerThread" level="INFO">
+	<logger name="org.subethamail.smtp.server.ServerThread" level="DEBUG">
 		<appender-ref ref="SMTPLOGS" />
 	</logger>
 
-	<root level="INFO">
+	<root level="DEBUG">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

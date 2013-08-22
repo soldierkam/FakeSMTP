@@ -1,0 +1,43 @@
+Received: from [IPv6:::1] (localhost.localdomain [0:0:0:0:0:0:0:1])
+        by localhost.localdomain with SMTP (SubEthaSMTP 3.1.6)
+        for person@example.com;
+        Wed, 21 Aug 2013 23:15:21 +0200 (CEST)
+Message-ID: <52152DE9.8090603@gmail.com>
+Disposition-Notification-To: "soldier.kam" <soldier.kam@gmail.com>
+Date: Wed, 21 Aug 2013 23:15:21 +0200
+From: "soldier.kam" <soldier.kam@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130806 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: person@example.com
+Subject: Mail plain and html
+Content-Type: multipart/alternative;
+ boundary="------------000104040401070506010708"
+
+This is a multi-part message in MIME format.
+--------------000104040401070506010708
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+This is mail in plain text and HTML.
+This is *bold*, /italic/, _underline_
+Small
+Big
+
+--------------000104040401070506010708
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    This is mail in plain text and HTML.<br>
+    This is <b>bold</b>, <i>italic</i>, <u>underline</u><br>
+    <small><small>Small</small></small><br>
+    <big><big><big>Big</big></big></big><br>
+  </body>
+</html>
+
+--------------000104040401070506010708--

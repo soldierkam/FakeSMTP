@@ -56,9 +56,6 @@ public final class NbReceivedLabel implements Observer {
 			int countMsg = model.getNbMessageReceived() + 1;
 			model.setNbMessageReceived(countMsg);
 			nbReceived.setText(Integer.toString(countMsg));
-		} else if (o instanceof ClearAllButton) {
-			UIModel.INSTANCE.setNbMessageReceived(0);
-			nbReceived.setText("0");
 		}
 	}
 }

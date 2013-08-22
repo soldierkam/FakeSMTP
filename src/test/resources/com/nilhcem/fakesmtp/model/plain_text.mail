@@ -1,0 +1,19 @@
+Received: from [IPv6:::1] (localhost.localdomain [0:0:0:0:0:0:0:1])
+        by localhost.localdomain with SMTP (SubEthaSMTP 3.1.6)
+        for person@example.com;
+        Wed, 21 Aug 2013 23:10:37 +0200 (CEST)
+Message-ID: <52152CCD.1060204@gmail.com>
+Disposition-Notification-To: "soldier.kam" <soldier.kam@gmail.com>
+Date: Wed, 21 Aug 2013 23:10:37 +0200
+From: "soldier.kam" <soldier.kam@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130806 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: person@example.com
+Subject: Example plain text mail
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Hello!
+This is mail.
+
+Bla bla.

@@ -1,12 +1,13 @@
 package com.nilhcem.fakesmtp;
 
-import java.awt.EventQueue;
-import javax.swing.UIManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.nilhcem.fakesmtp.core.Configuration;
 import com.nilhcem.fakesmtp.core.exception.UncaughtExceptionHandler;
 import com.nilhcem.fakesmtp.gui.MainFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Entry point of the application.
@@ -36,6 +37,7 @@ public final class FakeSMTP {
 	 * @param args a list of parameters.
 	 */
 	public static void main(String[] args) {
+        System.setProperty ( "sun.awt.xembedserver", "true" );
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
 		EventQueue.invokeLater(new Runnable() {
 			@Override

@@ -55,7 +55,7 @@ public enum I18n {
 			return resources.getString(key);
 		} catch (MissingResourceException e) {
 			logger.error("{}", e.getMessage());
-			return "";
+			return key;
 		}
 	}
 }

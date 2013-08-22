@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import com.nilhcem.fakesmtp.core.Configuration;
 import com.nilhcem.fakesmtp.core.I18n;
-import com.nilhcem.fakesmtp.gui.info.ClearAllButton;
 import com.nilhcem.fakesmtp.model.EmailModel;
 import com.nilhcem.fakesmtp.model.UIModel;
 import com.nilhcem.fakesmtp.server.MailSaver;
@@ -63,6 +62,7 @@ public final class MailsListPane implements Observer {
 	private final DefaultTableModel model = new DefaultTableModel() {
 		private static final long serialVersionUID = -6716294637919469299L;
 
+                @Override
 		public boolean isCellEditable(int rowIndex, int mColIndex) {
 			return false;
 		}
@@ -127,6 +127,7 @@ public final class MailsListPane implements Observer {
 
 		// Auto scroll tab to bottom when a new element is inserted
 		table.addComponentListener(new ComponentAdapter() {
+                        @Override
 			public void componentResized(ComponentEvent e) {
 				table.scrollRectToVisible(new Rectangle(table.getCellRect(nbElements, 0, true)));
 			}
@@ -139,6 +140,7 @@ public final class MailsListPane implements Observer {
 		table.setModel(model);
 
 		mailsListPane.addComponentListener(new ComponentAdapter() {
+                        @Override
 			public void componentResized(ComponentEvent e) {
 				// When the width of a column is changed, only the columns to the left and right of the margin change
 				table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
@@ -187,19 +189,7 @@ public final class MailsListPane implements Observer {
 			EmailModel email = (EmailModel) arg;
 			model.addRow(new Object[] {dateFormat.format(email.getReceivedDate()),
 					email.getFrom(), email.getTo(), email.getSubject()});
-			UIModel.INSTANCE.getListMailsMap().put(nbElements++, email.getFilePath());
-		} else if (o instanceof ClearAllButton) {
-			// Delete information from the map
-			UIModel.INSTANCE.getListMailsMap().clear();
-
-			// Remove elements from the list
-			try {
-				while (nbElements > 0) {
-					model.removeRow(--nbElements);
-				}
-			} catch (ArrayIndexOutOfBoundsException e) {
-				LOGGER.error("", e);
-			}
+			//UIModel.INSTANCE.getListMailsMap().put(nbElements++, email.getFilePath());
 		}
 	}
 

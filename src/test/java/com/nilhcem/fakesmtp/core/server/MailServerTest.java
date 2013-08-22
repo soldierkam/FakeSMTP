@@ -2,7 +2,6 @@ package com.nilhcem.fakesmtp.core.server;
 
 import static org.junit.Assert.*;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Observable;
@@ -10,7 +9,6 @@ import java.util.Observer;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import com.nilhcem.fakesmtp.model.EmailModel;
-import com.nilhcem.fakesmtp.model.UIModel;
 import com.nilhcem.fakesmtp.server.MailSaver;
 
 public class MailServerTest {
@@ -44,18 +42,9 @@ public class MailServerTest {
 				assertEquals(to, model.getTo());
 				assertEquals(subject, model.getSubject());
 				assertEquals(to, model.getTo());
-				assertNotNull(model.getEmailStr());
-				assertFalse(model.getEmailStr().isEmpty());
-				assertNotNull(model.getFilePath());
-				assertFalse(model.getFilePath().isEmpty());
-
-				File file = new File(model.getFilePath());
-				assertTrue(file.exists());
-
-				// Delete
-				UIModel.INSTANCE.getListMailsMap().put(0, model.getFilePath());
+				assertNotNull(model.getPlainTextEmail());
+				assertFalse(model.getPlainTextEmail().getText().isEmpty());				
 				saver.deleteEmails();
-				assertFalse(file.exists());
 			}
 		};
 		saver.addObserver(mockObserver);
