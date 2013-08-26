@@ -27,7 +27,6 @@ public class ServerStartDialog extends Dialog {
         super(parentShell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
         setText(I18n.INSTANCE.get("dialog.server.start.title"));
         createContents();
-
     }
 
     private void createContents() {

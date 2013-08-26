@@ -32,15 +32,15 @@ public class SwtTable extends Observable implements Observer {
     public SwtTable(SashForm sashForm) {
         table = new Table(sashForm, SWT.BORDER);
 
-        TableColumn tc1 = new TableColumn(table, SWT.CENTER);
-        TableColumn tc2 = new TableColumn(table, SWT.CENTER);
-        TableColumn tc3 = new TableColumn(table, SWT.CENTER);
+        TableColumn tc1 = new TableColumn(table, SWT.LEFT);
+        TableColumn tc2 = new TableColumn(table, SWT.LEFT);
+        TableColumn tc3 = new TableColumn(table, SWT.LEFT);
         tc1.setText(I18n.INSTANCE.get("email.list.date.column"));
         tc2.setText(I18n.INSTANCE.get("email.list.from.column"));
-        tc3.setText(I18n.INSTANCE.get("email.list.title.column"));
-        tc1.setWidth(70);
-        tc2.setWidth(70);
-        tc3.setWidth(80);
+        tc3.setText(I18n.INSTANCE.get("email.list.subject.column"));
+        tc1.setWidth(100);
+        tc2.setWidth(100);
+        tc3.setWidth(200);
         table.setHeaderVisible(true);
         table.addSelectionListener(new SelectionAdapter() {
             @Override

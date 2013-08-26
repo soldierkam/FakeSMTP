@@ -109,6 +109,9 @@ public final class MenuBar extends Observable {
                 Dialog dialog = new ServerStartDialog(shell);                
             }
         });
+        
+        MenuItem clearList = new MenuItem(editMenu, SWT.PUSH);
+        clearList.setText(i18n.get("menubar.messages.clear.list"));
     }
 
     private void displayError(String msg) {
