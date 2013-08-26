@@ -34,7 +34,7 @@ public class HtmlPanel implements Observer {
         browser = new Browser(tabs, SWT.NONE);
         browser.setJavascriptEnabled(false);
         htmlItem.setControl(browser);
-        plainText = new Text(tabs, SWT.NONE);        
+        plainText = new Text(tabs, SWT.WRAP | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);        
         plainText.setEditable(false);
         plainTextItem.setControl(plainText);
     }
