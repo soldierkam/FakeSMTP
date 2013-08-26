@@ -1,17 +1,8 @@
 package com.nilhcem.fakesmtp.gui;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import javax.swing.JFrame;
-import com.nilhcem.fakesmtp.core.Configuration;
-import com.nilhcem.fakesmtp.core.exception.UncaughtExceptionHandler;
+import com.nilhcem.fakesmtp.core.I18n;
 import com.nilhcem.fakesmtp.model.UIModel;
-import com.nilhcem.fakesmtp.server.SMTPServerHandler;
-import java.awt.Frame;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
@@ -24,7 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 public final class MainFrame {
 
     private final MenuBar menu;
-    private final SwtMainPanel mainPanel;
+    private final MainPanel mainPanel;
     
     /**
      * Creates the main window and make it visible.
@@ -49,36 +40,10 @@ public final class MainFrame {
         final Display display = new Display();
         final Shell shell = new Shell(display);
         shell.setLayout(new FillLayout());
+        shell.setText(I18n.INSTANCE.get("window.main.title"));
         menu = new MenuBar(shell);
-        mainPanel = new SwtMainPanel(shell);
-//        mainFrame = SWT_AWT.new_Frame(composite);
-//        mainFrame.setTitle(Configuration.INSTANCE.get("application.title"));
-//        mainFrame.setMinimumSize(new Dimension(300, 300));
-//        mainFrame.setVisible(true);
-//
-//        ((UncaughtExceptionHandler) Thread.getDefaultUncaughtExceptionHandler()).setParentComponent(panel.get());
-//        Dimension frameSize = new Dimension(Integer.parseInt(Configuration.INSTANCE.get("application.min.width")),
-//                Integer.parseInt(Configuration.INSTANCE.get("application.min.height")));
-//
-//        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        mainFrame.setSize(frameSize);
-//        mainFrame.setMinimumSize(frameSize);
-//
-//        mainFrame.setMenuBar(menu.get());
-//        mainFrame.getContentPane().add(panel.get());
-//        mainFrame.setLocationRelativeTo(null); // Center main frame
-//        mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().
-//                getResource(Configuration.INSTANCE.get("application.icon.path"))));
-//
-//        // Add shutdown hook to stop server if enabled
-//        Runtime.getRuntime().addShutdownHook(new Thread() {
-//            public void run() {
-//                SMTPServerHandler.INSTANCE.stopServer();
-//            }
-//        ;
-//        });
-//
-//		mainFrame.setVisible(true);
+        mainPanel = new MainPanel(shell);
+        menu.getClearList().addObserver(mainPanel.getTable());
         
         shell.open();
         while (!shell.isDisposed()) {
@@ -87,6 +52,6 @@ public final class MainFrame {
             }
         }
         display.dispose();
-        UIModel.INSTANCE.dispose();
+        UIModel.INSTANCE.stopServer();
     }
 }

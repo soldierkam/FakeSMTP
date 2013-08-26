@@ -6,13 +6,13 @@ import com.nilhcem.fakesmtp.core.exception.BindPortException;
 import com.nilhcem.fakesmtp.core.exception.InvalidPortException;
 import com.nilhcem.fakesmtp.core.exception.OutOfRangePortException;
 import com.nilhcem.fakesmtp.model.UIModel;
+import java.util.Observable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
@@ -21,18 +21,18 @@ import org.eclipse.swt.widgets.Spinner;
  *
  * @author soldier
  */
-public class ServerStartDialog extends Dialog {
+public class ServerStartDialog extends Observable {
+
+    private final Shell shell;
 
     public ServerStartDialog(Shell parentShell) {
-        super(parentShell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-        setText(I18n.INSTANCE.get("dialog.server.start.title"));
+        shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+        shell.setText(I18n.INSTANCE.get("dialog.server.start.title"));
         createContents();
     }
 
     private void createContents() {
-        Shell parent = getParent();
-        final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-
+        shell.setText(I18n.INSTANCE.get("window.startserver.title"));
         shell.setLayout(new GridLayout(2, true));
 
         // Show the message
@@ -60,10 +60,13 @@ public class ServerStartDialog extends Dialog {
         data = new GridData(GridData.FILL_HORIZONTAL);
         ok.setLayoutData(data);
         ok.addSelectionListener(new SelectionAdapter() {
+            @Override
             public void widgetSelected(SelectionEvent event) {
-                try {UIModel.INSTANCE.setPort(portSpinner.getSelection());
-                    UIModel.INSTANCE.toggleButton();
-                    //toggleStartServerButton();
+                try {
+                    UIModel.INSTANCE.setPort(portSpinner.getSelection());
+                    UIModel.INSTANCE.startServer();
+                    setChanged();
+                    notifyObservers();
                 } catch (InvalidPortException ipe) {
                     displayError(String.format(I18n.INSTANCE.get("startsrv.err.invalid")));
                 } catch (BindPortException bpe) {
@@ -73,7 +76,7 @@ public class ServerStartDialog extends Dialog {
                 } catch (RuntimeException re) {
                     displayError(String.format(I18n.INSTANCE.get("startsrv.err.default"), re.getMessage()));
                 }
-                shell.close();
+                shell.setVisible(false);
             }
         });
 
@@ -84,8 +87,9 @@ public class ServerStartDialog extends Dialog {
         data = new GridData(GridData.FILL_HORIZONTAL);
         cancel.setLayoutData(data);
         cancel.addSelectionListener(new SelectionAdapter() {
+            @Override
             public void widgetSelected(SelectionEvent event) {
-                shell.close();
+                shell.setVisible(false);
             }
         });
 
@@ -93,8 +97,11 @@ public class ServerStartDialog extends Dialog {
         // user can type input and press Enter
         // to dismiss
         shell.setDefaultButton(ok);
-        shell.pack();        
-        shell.setVisible(true);                
+    }
+
+    public void show() {
+        shell.pack();
+        shell.setVisible(true);
     }
 
     private void displayError(String msg) {

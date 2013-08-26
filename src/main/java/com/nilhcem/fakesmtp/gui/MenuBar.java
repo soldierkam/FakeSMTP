@@ -3,14 +3,11 @@ package com.nilhcem.fakesmtp.gui;
 import com.nilhcem.fakesmtp.core.Configuration;
 import java.util.Observable;
 import com.nilhcem.fakesmtp.core.I18n;
-import com.nilhcem.fakesmtp.core.exception.BindPortException;
-import com.nilhcem.fakesmtp.core.exception.InvalidPortException;
-import com.nilhcem.fakesmtp.core.exception.OutOfRangePortException;
 import com.nilhcem.fakesmtp.model.UIModel;
+import java.util.Observer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
@@ -22,10 +19,14 @@ import org.eclipse.swt.widgets.Shell;
  * @author Nilhcem
  * @since 1.0
  */
-public final class MenuBar extends Observable {
+public final class MenuBar extends Observable implements Observer {
 
     private final static I18n i18n = I18n.INSTANCE;
     private final Menu menuBar;
+    private MenuItem exit;
+    private MenuItem startServer;
+    private MenuItem stopServer;
+    private ClearListMenuItem clearList;
 
     /**
      * Creates the menu bar and the different menus (file / edit / help).
@@ -62,7 +63,7 @@ public final class MenuBar extends Observable {
         fileMenuHeader.setText(i18n.get("menubar.file"));
         //fileMenu.setMnemonic(i18n.get("menubar.mnemo.file").charAt(0));
 
-        MenuItem exit = new MenuItem(fileMenu, SWT.PUSH);
+        exit = new MenuItem(fileMenu, SWT.PUSH);
         exit.setText(i18n.get("menubar.exit"));
         //exit.setMnemonic(i18n.get("menubar.mnemo.exit").charAt(0));
         exit.addSelectionListener(new SelectionAdapter() {
@@ -89,33 +90,44 @@ public final class MenuBar extends Observable {
         Menu editMenu = new Menu(shell, SWT.DROP_DOWN);
         editMenuHeader.setMenu(editMenu);
 
-        MenuItem mailsLocation = new MenuItem(editMenu, SWT.PUSH);
-        mailsLocation.setText(i18n.get("menubar.messages.location"));
-        //mailsLocation.setMnemonic(i18n.get("menubar.mnemo.msglocation").charAt(0));
-        mailsLocation.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                setChanged();
-                notifyObservers();
-            }
-        });
+        final ServerStartDialog dialog = new ServerStartDialog(shell);
+        dialog.addObserver(this);
 
-        MenuItem startServer = new MenuItem(editMenu, SWT.PUSH);
+        startServer = new MenuItem(editMenu, SWT.PUSH);
         startServer.setText(i18n.get("menubar.messages.start.server"));
         //mailsLocation.setMnemonic(i18n.get("menubar.mnemo.msglocation").charAt(0));
         startServer.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                Dialog dialog = new ServerStartDialog(shell);                
+                dialog.show();        
             }
         });
-        
-        MenuItem clearList = new MenuItem(editMenu, SWT.PUSH);
-        clearList.setText(i18n.get("menubar.messages.clear.list"));
+
+        stopServer = new MenuItem(editMenu, SWT.PUSH);
+        stopServer.setEnabled(false);
+        stopServer.setText(i18n.get("menubar.messages.stop.server"));
+        //mailsLocation.setMnemonic(i18n.get("menubar.mnemo.msglocation").charAt(0));
+        stopServer.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                UIModel.INSTANCE.stopServer();
+                setMenuStartStop(false);
+            }
+        });
+        clearList = new ClearListMenuItem(editMenu);
+    }
+
+    private void setMenuStartStop(boolean isRunning) {
+        stopServer.setEnabled(isRunning);
+        startServer.setEnabled(!isRunning);
     }
 
     private void displayError(String msg) {
         //TODO
+    }
+
+    public ClearListMenuItem getClearList() {
+        return clearList;
     }
 
     /**
@@ -146,5 +158,15 @@ public final class MenuBar extends Observable {
                 dialog.open();
             }
         });
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof ServerStartDialog) {
+            setMenuStartStop(true);
+        } else {
+            throw new IllegalArgumentException("Unknown " + o + " " + arg);
+        }
+
     }
 }

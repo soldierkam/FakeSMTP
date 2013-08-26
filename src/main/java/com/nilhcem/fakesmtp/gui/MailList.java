@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.nilhcem.fakesmtp.gui;
 
 import com.nilhcem.fakesmtp.core.I18n;
 import com.nilhcem.fakesmtp.model.EmailModel;
 import com.nilhcem.fakesmtp.server.MailSaver;
-import com.nilhcem.fakesmtp.server.SMTPServerHandler;
 import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
@@ -24,12 +19,12 @@ import org.eclipse.swt.widgets.TableItem;
  *
  * @author soldier
  */
-public class SwtTable extends Observable implements Observer {
+public class MailList extends Observable implements Observer {
 
     final private Table table;
     private EmailModel selected;
 
-    public SwtTable(SashForm sashForm) {
+    public MailList(SashForm sashForm) {
         table = new Table(sashForm, SWT.BORDER);
 
         TableColumn tc1 = new TableColumn(table, SWT.LEFT);
@@ -53,6 +48,10 @@ public class SwtTable extends Observable implements Observer {
         });
     }
 
+    public void clear() {
+        table.clearAll();
+    }
+
     public EmailModel getSelected() {
         return selected;
     }
@@ -60,7 +59,6 @@ public class SwtTable extends Observable implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof MailSaver) {
-            final MailSaver mailSaver = (MailSaver) o;
             final EmailModel emailModel = (EmailModel) arg;
             Display.getDefault().asyncExec(new Runnable() {
                 @Override
@@ -71,8 +69,10 @@ public class SwtTable extends Observable implements Observer {
                     tableItem.setText(new String[]{sdf.format(emailModel.getReceivedDate()), emailModel.getFrom(), emailModel.getSubject()});
                 }
             });
+        } else if (o instanceof ClearListMenuItem) {
+            clear();
         } else {
-            throw new IllegalArgumentException("Unknsown " + o + " " + arg);
+            throw new IllegalArgumentException("Unknown " + o + " " + arg);
         }
     }
 }

@@ -46,7 +46,7 @@ public class MixedHandler extends AbstractMultipartHandler {
         }
         final Object content = bodyPart.getContent();
         if (content instanceof InputStream) {
-            attachments.add(new Attachment((InputStream) content, bodyPart.getContentType()));
+            attachments.add(new Attachment((InputStream) content, bodyPart.getContentType(), bodyPart.getDisposition(), bodyPart.getFileName()));
         } else {
             super.handleUknownContentType(bodyPart);
         }

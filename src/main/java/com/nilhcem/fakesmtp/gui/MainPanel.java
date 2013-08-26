@@ -10,17 +10,25 @@ import org.eclipse.swt.widgets.Shell;
  *
  * @author soldier
  */
-public class SwtMainPanel {
+public class MainPanel {
 
-    private final SwtTable table;
-    private final HtmlPanel htmlPanel;
+    private final MailList table;
+    private final MailPanel htmlPanel;
 
-    public SwtMainPanel(Shell shell) {
+    public MainPanel(Shell shell) {
         SashForm form = new SashForm(shell, SWT.HORIZONTAL);
         form.setLayout(new FillLayout());
-        table = new SwtTable(form);
+        table = new MailList(form);
         SMTPServerHandler.INSTANCE.getMailSaver().addObserver(table);
-        htmlPanel = new HtmlPanel(form);
+        htmlPanel = new MailPanel(form);
         table.addObserver(htmlPanel);
+    }
+
+    public MailList getTable() {
+        return table;
+    }
+
+    public MailPanel getHtmlPanel() {
+        return htmlPanel;
     }
 }

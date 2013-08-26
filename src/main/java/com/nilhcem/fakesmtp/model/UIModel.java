@@ -44,13 +44,11 @@ public enum UIModel {
      * @throws OutOfRangePortException when the port is out of range.
      * @throws RuntimeException when an unknown exception happened.
      */
-    public void toggleButton() throws BindPortException, OutOfRangePortException, InvalidPortException {
-        if (started) {
-            SMTPServerHandler.INSTANCE.stopServer();
-        } else {
+    public void startServer() throws BindPortException, OutOfRangePortException, InvalidPortException {
+        if (!started) {
             SMTPServerHandler.INSTANCE.startServer(port);
+            started = true;
         }
-        started = !started;
     }
 
     /**
@@ -90,9 +88,10 @@ public enum UIModel {
         return listMailsMap;
     }
 
-    public void dispose() {
+    public void stopServer() {
         if (started) {
             SMTPServerHandler.INSTANCE.stopServer();
+            started = false;
         }
     }
 }
