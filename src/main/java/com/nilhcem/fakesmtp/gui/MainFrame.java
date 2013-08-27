@@ -2,6 +2,7 @@ package com.nilhcem.fakesmtp.gui;
 
 import com.nilhcem.fakesmtp.core.I18n;
 import com.nilhcem.fakesmtp.model.UIModel;
+import java.awt.SplashScreen;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -46,6 +47,7 @@ public final class MainFrame {
         menu.getClearList().addObserver(mainPanel.getTable());
         
         shell.open();
+        SplashScreen.getSplashScreen().close();
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch()) {
                 display.sleep();
