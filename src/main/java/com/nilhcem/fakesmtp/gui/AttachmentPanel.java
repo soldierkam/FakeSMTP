@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.nilhcem.fakesmtp.gui;
 
 import com.nilhcem.fakesmtp.core.I18n;
 import com.nilhcem.fakesmtp.model.Attachment;
 import com.nilhcem.fakesmtp.model.EmailModel;
-import java.text.SimpleDateFormat;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
@@ -24,8 +20,9 @@ public class AttachmentPanel {
     final private Table table;
 
     public AttachmentPanel(TabFolder tabs, TabItem tab) {
-        table = new Table(tabs, SWT.NONE);
-        tab.setControl(table);
+        Composite tableWrapper = new Composite(tabs, SWT.NONE);
+        table = new Table(tableWrapper, SWT.NONE);
+        tab.setControl(tableWrapper);
 
         TableColumn tc1 = new TableColumn(table, SWT.LEFT);
         TableColumn tc2 = new TableColumn(table, SWT.LEFT);
@@ -33,9 +30,7 @@ public class AttachmentPanel {
         tc1.setText(I18n.INSTANCE.get("attachment.list.filename"));
         tc2.setText(I18n.INSTANCE.get("attachment.list.mime"));
         tc3.setText(I18n.INSTANCE.get("attachment.list.size"));
-        tc1.setWidth(400);
-        tc2.setWidth(100);
-        tc3.setWidth(100);
+        tableWrapper.addControlListener(new TableResizeControl(tableWrapper, table, new ColumnWidth(tc1, 1d), new ColumnWidth(tc2, 200), new ColumnWidth(tc3, 100)));
         table.setHeaderVisible(true);
     }
 

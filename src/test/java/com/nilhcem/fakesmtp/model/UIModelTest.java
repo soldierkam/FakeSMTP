@@ -22,9 +22,8 @@ public class UIModelTest {
     }
 
     @Test(expected = InvalidPortException.class)
-    public void testInvalidPort() throws BindPortException, OutOfRangePortException, InvalidPortException {
+    public void testInvalidPort() throws InvalidPortException {
         UIModel.INSTANCE.setPort(-50);
-        UIModel.INSTANCE.startServer();
     }
 
     @Test

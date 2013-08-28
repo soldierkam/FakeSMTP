@@ -10,9 +10,16 @@ package com.nilhcem.fakesmtp.core.exception;
  * @since 1.0
  */
 public final class InvalidPortException extends Exception {
-	private static final long serialVersionUID = -3964366344520192790L;
 
-	public InvalidPortException(Exception e) {
-		setStackTrace(e.getStackTrace());
-	}
+    private static final long serialVersionUID = -3964366344520192790L;
+    private final int port;
+
+    public InvalidPortException(int port) {
+        super("Invalid port " + port);
+        this.port = port;
+    }
+
+    public int getPort() {
+        return port;
+    }
 }

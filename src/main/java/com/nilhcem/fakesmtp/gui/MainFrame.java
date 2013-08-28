@@ -17,7 +17,7 @@ public final class MainFrame {
 
     private final MenuBar menu;
     private final MainPanel mainPanel;
-    
+
     /**
      * Creates the main window and make it visible.
      * <p>
@@ -45,9 +45,12 @@ public final class MainFrame {
         menu = new MenuBar(shell);
         mainPanel = new MainPanel(shell);
         menu.getClearList().addObserver(mainPanel.getTable());
-        
+
         shell.open();
-        SplashScreen.getSplashScreen().close();
+        SplashScreen ss = SplashScreen.getSplashScreen();
+        if (ss != null) {
+            ss.close();
+        }
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch()) {
                 display.sleep();

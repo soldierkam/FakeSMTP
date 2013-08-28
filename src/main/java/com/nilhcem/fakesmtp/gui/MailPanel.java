@@ -29,7 +29,7 @@ public class MailPanel implements Observer {
         htmlItem = new TabItem(tabs, SWT.NONE);
         htmlItem.setText(I18n.INSTANCE.get("mail.panel.html.tab"));
         plainTextItem = new TabItem(tabs, SWT.NONE);
-        plainTextItem.setText(I18n.INSTANCE.get("mail.panel.plaintext.tab"));
+        plainTextItem.setText(I18n.INSTANCE.get("mail.panel.plaintext.tab"));        
         attachmentsItem = new TabItem(tabs, SWT.NONE);
         attachmentsItem.setText(I18n.INSTANCE.get("mail.panel.attachments.tab"));
         

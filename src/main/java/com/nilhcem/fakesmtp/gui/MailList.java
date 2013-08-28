@@ -10,6 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -25,7 +26,8 @@ public class MailList extends Observable implements Observer {
     private EmailModel selected;
 
     public MailList(SashForm sashForm) {
-        table = new Table(sashForm, SWT.BORDER);
+        Composite tableWrapper = new Composite(sashForm, SWT.NONE);
+        table = new Table(tableWrapper, SWT.BORDER);
 
         TableColumn tc1 = new TableColumn(table, SWT.LEFT);
         TableColumn tc2 = new TableColumn(table, SWT.LEFT);
@@ -33,10 +35,8 @@ public class MailList extends Observable implements Observer {
         tc1.setText(I18n.INSTANCE.get("email.list.date.column"));
         tc2.setText(I18n.INSTANCE.get("email.list.from.column"));
         tc3.setText(I18n.INSTANCE.get("email.list.subject.column"));
-        tc1.setWidth(100);
-        tc2.setWidth(100);
-        tc3.setWidth(200);
         table.setHeaderVisible(true);
+        tableWrapper.addControlListener(new TableResizeControl(tableWrapper, table, new ColumnWidth(tc1, 200), new ColumnWidth(tc2, 200), new ColumnWidth(tc3, 1d)));
         table.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {

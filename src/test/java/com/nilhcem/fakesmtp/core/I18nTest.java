@@ -29,7 +29,7 @@ public class I18nTest {
 
 	@Test
 	public void getEmptyValueWhenKeyIsNotFound() {
-		assertTrue(I18n.INSTANCE.get("this.key.doesnt.exist").isEmpty());
+		assertEquals("???this.key.doesnt.exist???", I18n.INSTANCE.get("this.key.doesnt.exist"));
 	}
 
 	@Test

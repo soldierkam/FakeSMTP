@@ -30,14 +30,14 @@ import org.subethamail.smtp.util.Base64;
 public class HtmlMail {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HtmlMail.class);
-    private final String html;
+    private final CompressedString html;
 
     public HtmlMail(String html) {
-        this.html = html;
+        this.html = new CompressedString(html);
     }
 
     public HtmlMail(BodyPart htmlPart) throws IOException, MessagingException {
-        html = (String) htmlPart.getContent();
+        this((String) htmlPart.getContent());
     }
 
     public HtmlMail(BodyPart htmlPart, MimeMultipart message) throws IOException, MessagingException {
@@ -59,7 +59,7 @@ public class HtmlMail {
                 }
             }
         }
-        html = htmlDoc.toString();
+        html = new CompressedString(htmlDoc.toString());
     }
 
     private static String decodeBodyPart(BodyPart bodyPart) throws MessagingException, IOException {
@@ -77,6 +77,6 @@ public class HtmlMail {
     }
 
     public String getHtml() {
-        return html;
+        return html.get();
     }
 }

@@ -64,7 +64,10 @@ public enum UIModel {
         return port;
     }
 
-    public void setPort(int port) {
+    public void setPort(int port) throws InvalidPortException {
+        if (port < 0 || port > 65535) {
+            throw new InvalidPortException(port);
+        }
         this.port = port;
     }
 
