@@ -49,7 +49,7 @@ public class MailList extends Observable implements Observer {
     }
 
     public void clear() {
-        table.clearAll();
+        table.removeAll();
     }
 
     public EmailModel getSelected() {
